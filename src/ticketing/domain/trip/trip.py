@@ -1,5 +1,4 @@
 from datetime import datetime
-from uuid import UUID
 
 from domain.exceptions import ValidationError
 from domain.trip.city import City
@@ -12,7 +11,7 @@ MAX_SEAT_COUNT = 1000
 class Trip:
     def __init__(
             self,
-            trip_id: UUID,
+            trip_id: int,
             origin: City,
             destination: City,
             departure: datetime,
@@ -35,7 +34,7 @@ class Trip:
         self.__seat_count = seat_count
 
     @property
-    def id(self) -> UUID:
+    def id(self) -> int:
         return self.__id
 
     @property

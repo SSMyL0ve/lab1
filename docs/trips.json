@@ -1,14 +1,14 @@
 {
     "trips": [
         {
-            "id": "01a197c1-a6e0-701d-99b0-54a8cc98a438",
+            "id": 1,
             "origin": "Москва",
             "destination": "Сочи",
             "departure": "2027-03-01T09:00:00",
             "seat_count": 180
         },
         {
-            "id": "01a197c1-a71f-735a-bdc1-cc9080465d6c",
+            "id": 2,
             "origin": "Москва",
             "destination": "Казань",
             "departure": "2027-03-03T22:00:00",

@@ -1,9 +1,6 @@
-# readline включает стрелки и историю ввода в input().
-import readline  # noqa: F401
 from collections.abc import Callable
 from datetime import datetime
 from typing import Protocol
-from uuid import UUID, uuid7
 
 from domain.booking.booking import Booking
 from domain.booking.passenger_name import PassengerName
@@ -24,6 +21,9 @@ def read_line(prompt: str) -> str:
 
 # Консоль зависит только от тех методов сервисов, которые вызывает.
 class TripServicePort(Protocol):
+    def next_id(self) -> int:
+        raise NotImplementedError
+
     def add_trip(self, trip: Trip) -> None:
         raise NotImplementedError
 
@@ -36,14 +36,14 @@ class TripServicePort(Protocol):
     def update_trip(self, trip: Trip) -> None:
         raise NotImplementedError
 
-    def delete_trip(self, trip_id: UUID) -> None:
+    def delete_trip(self, trip_id: int) -> None:
         raise NotImplementedError
 
 
 class BookingServicePort(Protocol):
     def add_booking(
         self,
-        trip_id: UUID,
+        trip_id: int,
         passenger_name: PassengerName,
         seat: SeatNumber,
     ) -> Booking:
@@ -57,13 +57,13 @@ class BookingServicePort(Protocol):
 
     def update_booking(
         self,
-        booking_id: UUID,
+        booking_id: int,
         passenger_name: PassengerName,
         seat: SeatNumber,
     ) -> Booking:
         raise NotImplementedError
 
-    def delete_booking(self, booking_id: UUID) -> None:
+    def delete_booking(self, booking_id: int) -> None:
         raise NotImplementedError
 
 
@@ -150,7 +150,7 @@ class Console:
 
     def __add_trip(self) -> None:
         print()
-        trip = self.__read_trip(uuid7())
+        trip = self.__read_trip(self.__trip_service.next_id())
 
         self.__trip_service.add_trip(trip)
         print(f"\nРейс {trip.route} добавлен")
@@ -251,7 +251,7 @@ class Console:
         return bookings[self.__choose(len(bookings), prompt)]
 
     # Поля вводятся по очереди, текущий рейс задает значения по умолчанию.
-    def __read_trip(self, trip_id: UUID, current: Trip | None = None) -> Trip:
+    def __read_trip(self, trip_id: int, current: Trip | None = None) -> Trip:
         origin = self.__ask_city(
             "Откуда", current.origin if current else None
         )

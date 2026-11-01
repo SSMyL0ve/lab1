@@ -2,7 +2,6 @@ import json
 from datetime import datetime
 from pathlib import Path
 from typing import Any
-from uuid import UUID
 
 from domain.exceptions import (
     AlreadyExistsError,
@@ -65,7 +64,7 @@ class JsonTripRepository:
     def __to_trip(self, item: dict[str, Any]) -> Trip:
         try:
             return Trip(
-                trip_id=UUID(item["id"]),
+                trip_id=int(item["id"]),
                 origin=City(item["origin"]),
                 destination=City(item["destination"]),
                 departure=datetime.fromisoformat(item["departure"]),
@@ -85,7 +84,7 @@ class JsonTripRepository:
     @staticmethod
     def __to_dict(trip: Trip) -> dict[str, Any]:
         return {
-            "id": str(trip.id),
+            "id": trip.id,
             "origin": trip.origin.value,
             "destination": trip.destination.value,
             "departure": trip.departure.isoformat(),
@@ -94,10 +93,10 @@ class JsonTripRepository:
 
     @staticmethod
     def __find_index(
-        trips: list[dict[str, Any]], trip_id: UUID
+        trips: list[dict[str, Any]], trip_id: int
     ) -> int | None:
         for index, item in enumerate(trips):
-            if item.get("id") == str(trip_id):
+            if item.get("id") == trip_id:
                 return index
 
         return None
@@ -111,7 +110,7 @@ class JsonTripRepository:
         trips.append(self.__to_dict(trip))
         self.__write_data(trips)
 
-    def get_by_id(self, trip_id: UUID) -> Trip | None:
+    def get_by_id(self, trip_id: int) -> Trip | None:
         trips = self.__read_data()
         index = self.__find_index(trips, trip_id)
 
@@ -145,7 +144,7 @@ class JsonTripRepository:
         trips[index] = self.__to_dict(trip)
         self.__write_data(trips)
 
-    def delete(self, trip_id: UUID) -> None:
+    def delete(self, trip_id: int) -> None:
         trips = self.__read_data()
         index = self.__find_index(trips, trip_id)
 

@@ -1,7 +1,6 @@
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from pathlib import Path
-from uuid import UUID
 
 from domain.exceptions import (
     AlreadyExistsError,
@@ -90,7 +89,7 @@ class XmlTripRepository:
                 raise ValueError("не заполнены обязательные поля")
 
             return Trip(
-                trip_id=UUID(trip_id),
+                trip_id=int(trip_id),
                 origin=City(origin),
                 destination=City(destination),
                 departure=datetime.fromisoformat(departure),
@@ -102,7 +101,7 @@ class XmlTripRepository:
             ) from error
 
     @staticmethod
-    def __find_element(root: ET.Element, trip_id: UUID) -> ET.Element | None:
+    def __find_element(root: ET.Element, trip_id: int) -> ET.Element | None:
         for element in root.findall("trip"):
             if element.findtext("id") == str(trip_id):
                 return element
@@ -118,7 +117,7 @@ class XmlTripRepository:
         root.append(self.__to_element(trip))
         self.__write_root(root)
 
-    def get_by_id(self, trip_id: UUID) -> Trip | None:
+    def get_by_id(self, trip_id: int) -> Trip | None:
         element = self.__find_element(self.__read_root(), trip_id)
 
         if element is None:
@@ -156,7 +155,7 @@ class XmlTripRepository:
         root.insert(index, self.__to_element(trip))
         self.__write_root(root)
 
-    def delete(self, trip_id: UUID) -> None:
+    def delete(self, trip_id: int) -> None:
         root = self.__read_root()
         element = self.__find_element(root, trip_id)
 

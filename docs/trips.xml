@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <trips>
     <trip>
-        <id>01a197c1-a6e0-701d-99b0-54a8cc98a438</id>
+        <id>1</id>
         <origin>Москва</origin>
         <destination>Сочи</destination>
         <departure>2027-03-01T09:00:00</departure>
         <seat_count>180</seat_count>
     </trip>
     <trip>
-        <id>01a197c1-a71f-735a-bdc1-cc9080465d6c</id>
+        <id>2</id>
         <origin>Москва</origin>
         <destination>Казань</destination>
         <departure>2027-03-03T22:00:00</departure>

@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 from typing import Any
-from uuid import UUID
 
 from domain.booking.booking import Booking
 from domain.booking.passenger_name import PassengerName
@@ -67,8 +66,8 @@ class JsonBookingRepository:
     def __to_booking(self, item: dict[str, Any]) -> Booking:
         try:
             return Booking(
-                booking_id=UUID(item["id"]),
-                trip_id=UUID(item["trip_id"]),
+                booking_id=int(item["id"]),
+                trip_id=int(item["trip_id"]),
                 passenger_name=PassengerName(item["passenger_name"]),
                 seat=SeatNumber(item["seat"]),
             )
@@ -86,18 +85,18 @@ class JsonBookingRepository:
     @staticmethod
     def __to_dict(booking: Booking) -> dict[str, Any]:
         return {
-            "id": str(booking.id),
-            "trip_id": str(booking.trip_id),
+            "id": booking.id,
+            "trip_id": booking.trip_id,
             "passenger_name": booking.passenger_name.value,
             "seat": booking.seat.value,
         }
 
     @staticmethod
     def __find_index(
-        bookings: list[dict[str, Any]], booking_id: UUID
+        bookings: list[dict[str, Any]], booking_id: int
     ) -> int | None:
         for index, item in enumerate(bookings):
-            if item.get("id") == str(booking_id):
+            if item.get("id") == booking_id:
                 return index
 
         return None
@@ -111,7 +110,7 @@ class JsonBookingRepository:
         bookings.append(self.__to_dict(booking))
         self.__write_data(bookings)
 
-    def get_by_id(self, booking_id: UUID) -> Booking | None:
+    def get_by_id(self, booking_id: int) -> Booking | None:
         bookings = self.__read_data()
         index = self.__find_index(bookings, booking_id)
 
@@ -126,7 +125,7 @@ class JsonBookingRepository:
             for item in self.__read_data()
         ]
 
-    def find_by_trip(self, trip_id: UUID) -> list[Booking]:
+    def find_by_trip(self, trip_id: int) -> list[Booking]:
         return [
             booking
             for booking in self.get_all()
@@ -143,7 +142,7 @@ class JsonBookingRepository:
         bookings[index] = self.__to_dict(booking)
         self.__write_data(bookings)
 
-    def delete(self, booking_id: UUID) -> None:
+    def delete(self, booking_id: int) -> None:
         bookings = self.__read_data()
         index = self.__find_index(bookings, booking_id)
 

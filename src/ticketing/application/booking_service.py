@@ -1,5 +1,4 @@
 from datetime import datetime
-from uuid import UUID, uuid7
 
 from domain.booking.booking import Booking
 from domain.booking.passenger_name import PassengerName
@@ -26,12 +25,12 @@ class BookingService:
 
     def add_booking(
         self,
-        trip_id: UUID,
+        trip_id: int,
         passenger_name: PassengerName,
         seat: SeatNumber,
     ) -> Booking:
         booking = Booking(
-            booking_id=uuid7(),
+            booking_id=self.__next_id(),
             trip_id=trip_id,
             passenger_name=passenger_name,
             seat=seat,
@@ -40,7 +39,7 @@ class BookingService:
         self.__booking_repository.add(booking)
         return booking
 
-    def get_booking(self, booking_id: UUID) -> Booking:
+    def get_booking(self, booking_id: int) -> Booking:
         booking = self.__booking_repository.get_by_id(booking_id)
 
         if booking is None:
@@ -56,7 +55,7 @@ class BookingService:
 
     def update_booking(
         self,
-        booking_id: UUID,
+        booking_id: int,
         passenger_name: PassengerName,
         seat: SeatNumber,
     ) -> Booking:
@@ -73,10 +72,15 @@ class BookingService:
         self.__booking_repository.update(updated)
         return updated
 
-    def delete_booking(self, booking_id: UUID) -> None:
+    def delete_booking(self, booking_id: int) -> None:
         self.__booking_repository.delete(booking_id)
 
-    def __get_trip(self, trip_id: UUID) -> Trip:
+    # Новый id на единицу больше самого большого из сохраненных.
+    def __next_id(self) -> int:
+        ids = [booking.id for booking in self.get_all_bookings()]
+        return max(ids, default=0) + 1
+
+    def __get_trip(self, trip_id: int) -> Trip:
         trip = self.__trip_repository.get_by_id(trip_id)
 
         if trip is None:

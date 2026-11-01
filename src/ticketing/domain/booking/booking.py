@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from domain.booking.passenger_name import PassengerName
 from domain.booking.seat_number import SeatNumber
 
@@ -9,8 +7,8 @@ from domain.booking.seat_number import SeatNumber
 class Booking:
     def __init__(
             self,
-            booking_id: UUID,
-            trip_id: UUID,
+            booking_id: int,
+            trip_id: int,
             passenger_name: PassengerName,
             seat: SeatNumber
     ) -> None:
@@ -20,11 +18,11 @@ class Booking:
         self.__seat = seat
 
     @property
-    def id(self) -> UUID:
+    def id(self) -> int:
         return self.__id
 
     @property
-    def trip_id(self) -> UUID:
+    def trip_id(self) -> int:
         return self.__trip_id
 
     @property

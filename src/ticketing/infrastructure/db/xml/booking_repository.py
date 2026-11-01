@@ -1,6 +1,5 @@
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from uuid import UUID
 
 from domain.booking.booking import Booking
 from domain.booking.passenger_name import PassengerName
@@ -90,8 +89,8 @@ class XmlBookingRepository:
                 raise ValueError("не заполнены обязательные поля")
 
             return Booking(
-                booking_id=UUID(booking_id),
-                trip_id=UUID(trip_id),
+                booking_id=int(booking_id),
+                trip_id=int(trip_id),
                 passenger_name=PassengerName(passenger_name),
                 seat=SeatNumber(int(seat)),
             )
@@ -102,7 +101,7 @@ class XmlBookingRepository:
 
     @staticmethod
     def __find_element(
-        root: ET.Element, booking_id: UUID
+        root: ET.Element, booking_id: int
     ) -> ET.Element | None:
         for element in root.findall("booking"):
             if element.findtext("id") == str(booking_id):
@@ -119,7 +118,7 @@ class XmlBookingRepository:
         root.append(self.__to_element(booking))
         self.__write_root(root)
 
-    def get_by_id(self, booking_id: UUID) -> Booking | None:
+    def get_by_id(self, booking_id: int) -> Booking | None:
         element = self.__find_element(self.__read_root(), booking_id)
 
         if element is None:
@@ -135,7 +134,7 @@ class XmlBookingRepository:
             for element in root.findall("booking")
         ]
 
-    def find_by_trip(self, trip_id: UUID) -> list[Booking]:
+    def find_by_trip(self, trip_id: int) -> list[Booking]:
         return [
             booking
             for booking in self.get_all()
@@ -155,7 +154,7 @@ class XmlBookingRepository:
         root.insert(index, self.__to_element(booking))
         self.__write_root(root)
 
-    def delete(self, booking_id: UUID) -> None:
+    def delete(self, booking_id: int) -> None:
         root = self.__read_root()
         element = self.__find_element(root, booking_id)
 

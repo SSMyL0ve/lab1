@@ -1,5 +1,4 @@
 from datetime import datetime
-from uuid import UUID
 
 from domain.booking.repository import BookingRepository
 from domain.exceptions import NotFoundError, ValidationError
@@ -17,11 +16,16 @@ class TripService:
         self.__trip_repository = trip_repository
         self.__booking_repository = booking_repository
 
+    # Новый id на единицу больше самого большого из сохраненных.
+    def next_id(self) -> int:
+        ids = [trip.id for trip in self.get_all_trips()]
+        return max(ids, default=0) + 1
+
     def add_trip(self, trip: Trip) -> None:
         self.__check_departure(trip)
         self.__trip_repository.add(trip)
 
-    def get_trip(self, trip_id: UUID) -> Trip:
+    def get_trip(self, trip_id: int) -> Trip:
         trip = self.__trip_repository.get_by_id(trip_id)
 
         if trip is None:
@@ -47,7 +51,7 @@ class TripService:
 
         self.__trip_repository.update(trip)
 
-    def delete_trip(self, trip_id: UUID) -> None:
+    def delete_trip(self, trip_id: int) -> None:
         trip = self.get_trip(trip_id)
 
         # Рейс с бронями удалять нельзя: у броней останутся

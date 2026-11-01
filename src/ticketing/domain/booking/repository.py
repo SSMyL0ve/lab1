@@ -1,5 +1,4 @@
 from typing import Protocol
-from uuid import UUID
 
 from domain.booking.booking import Booking
 
@@ -10,17 +9,17 @@ class BookingRepository(Protocol):
     def add(self, booking: Booking) -> None:
         raise NotImplementedError
 
-    def get_by_id(self, booking_id: UUID) -> Booking | None:
+    def get_by_id(self, booking_id: int) -> Booking | None:
         raise NotImplementedError
 
     def get_all(self) -> list[Booking]:
         raise NotImplementedError
 
-    def find_by_trip(self, trip_id: UUID) -> list[Booking]:
+    def find_by_trip(self, trip_id: int) -> list[Booking]:
         raise NotImplementedError
 
     def update(self, booking: Booking) -> None:
         raise NotImplementedError
 
-    def delete(self, booking_id: UUID) -> None:
+    def delete(self, booking_id: int) -> None:
         raise NotImplementedError

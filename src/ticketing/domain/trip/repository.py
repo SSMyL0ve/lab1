@@ -1,5 +1,4 @@
 from typing import Protocol
-from uuid import UUID
 
 from domain.trip.trip import Trip
 
@@ -10,7 +9,7 @@ class TripRepository(Protocol):
     def add(self, trip: Trip) -> None:
         raise NotImplementedError
 
-    def get_by_id(self, trip_id: UUID) -> Trip | None:
+    def get_by_id(self, trip_id: int) -> Trip | None:
         raise NotImplementedError
 
     def get_all(self) -> list[Trip]:
@@ -22,5 +21,5 @@ class TripRepository(Protocol):
     def update(self, trip: Trip) -> None:
         raise NotImplementedError
 
-    def delete(self, trip_id: UUID) -> None:
+    def delete(self, trip_id: int) -> None:
         raise NotImplementedError
