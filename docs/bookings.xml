@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bookings>
+    <booking>
+        <id>01a197c1-a6e1-7380-892c-138aed46334c</id>
+        <trip_id>01a197c1-a6e0-701d-99b0-54a8cc98a438</trip_id>
+        <passenger_name>Петрова Анна Ивановна</passenger_name>
+        <seat>12</seat>
+    </booking>
+    <booking>
+        <id>01a197c1-a742-73f4-adb2-9621667380db</id>
+        <trip_id>01a197c1-a71f-735a-bdc1-cc9080465d6c</trip_id>
+        <passenger_name>Сидоров Павел</passenger_name>
+        <seat>7</seat>
+    </booking>
+</bookings>

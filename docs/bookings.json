@@ -1,0 +1,16 @@
+{
+    "bookings": [
+        {
+            "id": "01a197c1-a6e1-7380-892c-138aed46334c",
+            "trip_id": "01a197c1-a6e0-701d-99b0-54a8cc98a438",
+            "passenger_name": "Петрова Анна Ивановна",
+            "seat": 12
+        },
+        {
+            "id": "01a197c1-a742-73f4-adb2-9621667380db",
+            "trip_id": "01a197c1-a71f-735a-bdc1-cc9080465d6c",
+            "passenger_name": "Сидоров Павел",
+            "seat": 7
+        }
+    ]
+}
